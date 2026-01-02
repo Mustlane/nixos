@@ -8,6 +8,13 @@ config = lib.mkIf config.postgresql.enable {
   services.postgresql = {
     enable = true;
     settings.port = 5432;
+    ensureUsers = [
+      {
+        name = "mustlane";
+        ensureDBOwnership = true;
+        ensureClauses.superuser = true;
+      }
+    ];
     ensureDatabases = [ "mustlane" ];
     enableTCPIP = true;
     authentication = pkgs.lib.mkOverride 10 ''

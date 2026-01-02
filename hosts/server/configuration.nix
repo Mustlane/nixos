@@ -92,7 +92,7 @@
   };
 
   networking.firewall.allowedTCPPorts = [ 80 443 330 ];
-  networking.firewall.allowedUDPPorts = [ 80 443 ];
+  networking.firewall.allowedUDPPorts = [ 80 443 330 ];
 
   nixpkgs.config.allowUnfree = true;
 
@@ -101,10 +101,6 @@
     ports = [330];
     settings = {
       PasswordAuthentication = true;
-      AllowUsers = null;
-      UseDns = true;
-      X11Forwarding = false;
-      PermitRootLogin = "prohibit-password";
   };
 };
 

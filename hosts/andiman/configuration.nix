@@ -37,6 +37,13 @@
 
   networking.firewall.enable = true;
 
+
+  networking.firewall = {
+    enable = true;
+    allowedTCPPorts = [ 330 ];
+    allowedUDPPorts = [ 330 ];
+  };
+
   system.stateVersion = "25.05";
 
   nix.settings.experimental-features = [ "nix-command" "flakes" ];

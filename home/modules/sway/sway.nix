@@ -25,8 +25,7 @@ config = lib.mkIf config.sway.enable {
     checkConfig = false;
     config = rec {
       modifier = "Mod4";
-      terminal = "kitty";
-      workspaceAutoBackAndForth = true;
+      terminal = "alacritty";
       assigns = {
         "2: Web" = [{ app_id = "firefox"; }];
         "3: Code" = [{ class = "Code"; }];
@@ -105,7 +104,7 @@ config = lib.mkIf config.sway.enable {
     };
     extraConfig = ''
       primary_selection disabled
-      output * bg /etc/nixos/home/bg/wallhaven3.png fill
+      output * bg /etc/nixos/home/bg/wallhaven2.png fill
       bindsym Mod4+o exec grim -g "$(slurp -d)" -t png - | wl-copy -t image/png
       bindsym Mod4+p exec grim -g "$(slurp -d)" -t png - | tee "$HOME/Screenshots"/"Screenshot_$(date +%Y%m%d-%H%M%S).png"
       bindsym Mod4+i exec hyprpicker -a

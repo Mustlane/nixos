@@ -56,7 +56,8 @@ config = lib.mkIf config.zsh.enable {
       };
     shellAliases = {
       rebuild-switch = "sudo nixos-rebuild switch --flake /etc/nixos --impure";
-      nvidia-stats = "nvidia-smi";
+      freecad = "QT_QPA_PLATFORM=xcb freecad";
+      cat = "bat ";
       };
     };
   };

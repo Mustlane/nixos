@@ -10,6 +10,9 @@
   sops.defaultSopsFile = ./extras/secrets/secrets.yaml;
   sops.defaultSopsFormat = "yaml";
 
+  services.dictd.enable = true;
+  services.dictd.DBs = with pkgs.dictdDBs; [ wiktionary wordnet eng2rus ];
+
   sops.age.keyFile = "/root/.config/sops/age/keys.txt";
 
   sops.secrets."services/users/mustlane".neededForUsers = true;
@@ -18,6 +21,8 @@
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
+  qt.platformTheme = "kde";
+
   boot.kernelPackages = pkgs.linuxPackages_latest;
 
   networking.hostName = "nixos";
@@ -25,8 +30,6 @@
   time.timeZone = "Europe/Tallinn";
 
   i18n.defaultLocale = "en_US.UTF-8";
-
-  services.printing.enable = true;
 
   nix.settings.trusted-users = [ "mustlane" ];
 
@@ -53,16 +56,33 @@
   programs.mtr.enable = true;
   programs.gnupg.agent = {
     enable = true;
-    enableSSHSupport = true;
   };
 
-  services.openssh.enable = true;
+  services.openssh = {
+    enable = true;
+    ports = [330];
+    settings = {
+      PasswordAuthentication = true;
+      AllowUsers = null;
+      UseDns = true;
+      X11Forwarding = false;
+      PermitRootLogin = "prohibit-password";
+    };
+  };
 
-  networking.firewall.allowedTCPPorts = [ 80 443 ];
-  networking.firewall.allowedUDPPorts = [ 80 443 ];
-  networking.firewall.enable = true;
+  fonts = {
+    packages = with pkgs; [ dejavu_fonts nerd-fonts.fira-code ];
+ };
 
-  system.stateVersion = "25.05";
+  networking.firewall = {
+    enable = true;
+    allowedTCPPorts = [ 80 443 7182 330 ];
+    allowedUDPPorts = [ 80 443 7182 330 ];
+    allowedTCPPortRanges = [ { from = 1714; to = 1764; } ];
+    allowedUDPPortRanges = [ { from = 1714; to = 1764; } ];
+  };
+
+  system.stateVersion = "26.05";
 
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
  
@@ -98,6 +118,7 @@
         "networkmanager"
         "postgres"
         "docker"
+        "disk"
       ];
       shell = pkgs.zsh;
       hashedPasswordFile = config.sops.secrets."services/users/mustlane".path;
@@ -109,10 +130,6 @@
 
   nixpkgs.config.allowUnfree = true;
 
-  fonts.packages = with pkgs; [
-    dejavu_fonts
-  ];
-
   services.lact.enable = true;
 
   environment.systemPackages = with pkgs; [
@@ -122,7 +139,6 @@
     bluez-tools
     blueman
     dbeaver-bin
-    youtube-music
     pnpm
     nodejs_24
     tree
@@ -141,7 +157,6 @@
     slurp
     hyprpicker
     ytermusic
-    youtube-tui
     prusa-slicer
     kicad
     gimp
@@ -162,8 +177,7 @@
     libqalculate
     numbat
     arduino-ide
-    obs-studio
-    wine64
+    wineWowPackages.stable
     winetricks
     wineWowPackages.waylandFull
     smartmontools
@@ -171,11 +185,8 @@
     krita
     kdePackages.kdenlive
     pavucontrol
-    yazi
     glib
-    obsidian
     asunder
-    abcde
     kdePackages.dolphin
     kdePackages.qtsvg
     mkvtoolnix
@@ -183,21 +194,36 @@
     insomnia
     lshw-gui
     usbutils
-    strawberry
-    okteta
-    rar
     gsmartcontrol
     xhost
-    kdePackages.k3b
-    wpsoffice
     kdePackages.okular
     lm_sensors
     ffmpeg_7-full
     nicotine-plus
     ranger
     audacity
-    exactaudiocopy
+#    exactaudiocopy
     freetype
-    libxft
+    freecad
+    calibre
+    dict
+    libretranslate
+    mediawriter
+    fastfetch
+    bitwarden-desktop
+    datefmt
+    rustdesk
+    wf-recorder
+    mpvpaper
+    handbrake
+    lutris
+    appimage-run
+    cuetools
+    fooyin
+    cmake
+    gcc
+    fmt
+    kdePackages.kate
+    kdePackages.konsole
   ];
 }

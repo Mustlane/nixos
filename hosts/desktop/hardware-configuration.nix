@@ -29,6 +29,13 @@
       fsType = "ext4";
     };
 
+#  fileSystems."/etc/nixos/hosts/desktop/drives" = 
+#    { device = "/dev/disk/by-id/ata-PLDS_DVD-RW_DH16ABSH_11S45K0483ZVJ6620123";
+#      fsType = "auto";
+#      options = [ "ro" "user" "noauto" "unhide" ];
+#      noCheck = true;
+#    };
+
   swapDevices =
     [ { device = "/dev/disk/by-uuid/e2cb5d8f-9d7d-4728-9a6f-1719595362a8"; }
     ];

@@ -6,12 +6,15 @@
 };
 
 config = lib.mkIf config.zed-editor.enable {
+  targets.genericLinux.nixGL.vulkan.enable = true;
   programs = {
     zed-editor = {
       enable = true;
       extensions = [ "html" "catpuccin" "toml" "nix" "sql" "vue" "catpuccin icons" "scss" "latex" "basher" "liveserver" "postgres language server" "rainbox csv" ];
     userSettings = {
-      autosave = "on_focus_change";
+      assistant = {
+        enabled = false;
+      };
       auto_indent = true;
       auto_indent_on_paste = true;
       tab_size = 2;
@@ -21,9 +24,6 @@ config = lib.mkIf config.zed-editor.enable {
         active_line_width = 1;
         coloring = "fixed";
         background_coloring = "disabled";
-      };
-      features = {
-        edit_prediction_provider = "copilot";
       };
       icon_theme = "Catppuccin Macchiato";
       ui_font_size = 16;
