@@ -20,6 +20,13 @@
 
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
+  boot.supportedFilesystems = [ "ntfs" ];
+
+  zramSwap = {
+    enable = true;
+    algorithm = "zstd";
+    memoryPercent = 30;
+  };
 
   qt.platformTheme = "kde";
 
@@ -76,8 +83,8 @@
 
   networking.firewall = {
     enable = true;
-    allowedTCPPorts = [ 80 443 7182 330 ];
-    allowedUDPPorts = [ 80 443 7182 330 ];
+    allowedTCPPorts = [ 80 443 2234 7182 330 ];
+    allowedUDPPorts = [ 80 443 2234 7182 330 ];
     allowedTCPPortRanges = [ { from = 1714; to = 1764; } ];
     allowedUDPPortRanges = [ { from = 1714; to = 1764; } ];
   };
@@ -119,6 +126,7 @@
         "postgres"
         "docker"
         "disk"
+        "dialout"
       ];
       shell = pkgs.zsh;
       hashedPasswordFile = config.sops.secrets."services/users/mustlane".path;
@@ -157,8 +165,8 @@
     slurp
     hyprpicker
     ytermusic
-    prusa-slicer
-    kicad
+#    prusa-slicer
+#    kicad
     gimp
     age
     sops
@@ -207,12 +215,11 @@
     freecad
     calibre
     dict
-    libretranslate
     mediawriter
     fastfetch
     bitwarden-desktop
     datefmt
-    rustdesk
+#    rustdesk
     wf-recorder
     mpvpaper
     handbrake
@@ -225,5 +232,23 @@
     fmt
     kdePackages.kate
     kdePackages.konsole
+    space-station-14-launcher
+    esptool
+    droidcam
+    luanti
+    ytmdesktop
+    rclone
+    screen
+    python314
+    flex
+    bison
+    gperf
+    cmake
+    python314Packages.ninja
+    ccache
+    dfu-util
+    libusb1
+    openssl_oqs
+    jq
   ];
 }
